@@ -29,6 +29,22 @@ function client() {
   });
 }
 
+function captchaErrorSummary(error: unknown) {
+  if (!error || typeof error !== "object") {
+    return { message: String(error) };
+  }
+
+  const record = error as Record<string, unknown>;
+  return {
+    name: record.name,
+    message: record.message,
+    code: record.code,
+    statusCode: record.statusCode,
+    requestId: record.requestId,
+    data: record.data
+  };
+}
+
 export async function verifyCaptcha(captchaVerifyParam: string): Promise<boolean> {
   if (!captchaVerifyParam) return false;
   if (config.demoCaptchaBypass && captchaVerifyParam === "mock_captcha_pass") {
@@ -40,7 +56,13 @@ export async function verifyCaptcha(captchaVerifyParam: string): Promise<boolean
     captchaVerifyParam,
     sceneId: config.aliyunCaptcha.sceneId
   });
-  const response = await client().verifyIntelligentCaptcha(request);
+  let response: CaptchaSdk.VerifyIntelligentCaptchaResponse;
+  try {
+    response = await client().verifyIntelligentCaptcha(request);
+  } catch (error) {
+    console.error("[captcha-error]", captchaErrorSummary(error));
+    throw error;
+  }
   const result = response.body?.result;
 
   return result?.verifyResult === true && ["T001", "T005"].includes(result.verifyCode || "");

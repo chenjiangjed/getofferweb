@@ -27,7 +27,7 @@ export function AppShell() {
           </div>
         )}
 
-        <main className="min-w-0 flex-1">
+        <main className="min-w-0 flex-1 flex flex-col">
           <header className="sticky top-0 z-20 flex h-14 items-center bg-paper/90 px-4 backdrop-blur lg:justify-start">
             <button
               onClick={() => setMobileOpen(true)}
@@ -37,7 +37,19 @@ export function AppShell() {
               <Menu size={19} />
             </button>
           </header>
-          <Outlet />
+          <div className="flex-1">
+            <Outlet />
+          </div>
+          <footer className="py-4 text-center text-xs text-muted">
+            <a
+              href="https://beian.miit.gov.cn/"
+              target="_blank"
+              rel="noreferrer"
+              className="hover:text-brand"
+            >
+              陕ICP备2026014560号-1
+            </a>
+          </footer>
         </main>
       </div>
     </div>

@@ -1,9 +1,28 @@
 import dotenv from "dotenv";
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+
+const serverRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+
+function loadEnvFile(fileName: string) {
+  const candidates = [
+    path.resolve(process.cwd(), fileName),
+    path.resolve(serverRoot, fileName)
+  ];
+  const loaded = new Set<string>();
+
+  for (const candidate of candidates) {
+    if (loaded.has(candidate) || !fs.existsSync(candidate)) continue;
+    dotenv.config({ path: candidate });
+    loaded.add(candidate);
+  }
+}
 
 if (process.env.NODE_ENV === "production") {
-  dotenv.config({ path: ".env.production" });
+  loadEnvFile(".env.production");
 }
-dotenv.config();
+loadEnvFile(".env");
 
 export const config = {
   port: Number(process.env.PORT || 3001),

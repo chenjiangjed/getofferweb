@@ -182,6 +182,17 @@ export function LoginPage() {
             )}
           </div>
         </section>
+
+        <footer className="mt-6 text-center text-xs text-muted">
+          <a
+            href="https://beian.miit.gov.cn/"
+            target="_blank"
+            rel="noreferrer"
+            className="hover:text-brand"
+          >
+            陕ICP备2026014560号-1
+          </a>
+        </footer>
       </div>
     </main>
   );
