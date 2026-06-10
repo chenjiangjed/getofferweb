@@ -188,8 +188,9 @@ export function LoginPage() {
             href="https://beian.miit.gov.cn/"
             target="_blank"
             rel="noreferrer"
-            className="hover:text-brand"
+            className="inline-flex items-center justify-center gap-1.5 hover:text-brand"
           >
+            <img src="/logo/foot-icp.png" alt="" className="h-4 w-4 object-contain" />
             陕ICP备2026014560号-1
           </a>
         </footer>
